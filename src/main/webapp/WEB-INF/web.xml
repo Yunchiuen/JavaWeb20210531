@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1"
-         metadata-complete="false"><!--true就無法使用@ 部屬Servlet-->
+<web-app metadata-complete="false" version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <!--true就無法使用@ 部屬Servlet-->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <!-- 宣告filter -->
+    <filter>
+        <filter-name>Login</filter-name>
+        <filter-class>com.web.filter.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>Watermark</filter-name>
+        <filter-class>com.web.filter.WatermarkFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>PerformanceFilter</filter-name>
+        <filter-class>com.web.filter.PerformanceFilter</filter-class>
+    </filter>
+    <!--執行順序-->
+    <filter-mapping>
+        <filter-name>PerformanceFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Login</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Watermark</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+    
+    
+    
+    
     <!-- 宣告serclet -->
+
     <servlet>
         <servlet-name>HelloGenericServlet</servlet-name>
         <servlet-class>com.web.controller.HelloGenericServlet</servlet-class>
@@ -20,7 +47,6 @@
         <servlet-name>HelloGenericServlet</servlet-name>
         <url-pattern>/hi</url-pattern>
     </servlet-mapping>
-    
     <!-- 宣告serclet -->
     <servlet>
         <servlet-name>HelloHttpServlet</servlet-name>
@@ -31,5 +57,4 @@
         <servlet-name>HelloHttpServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
-    
 </web-app>
